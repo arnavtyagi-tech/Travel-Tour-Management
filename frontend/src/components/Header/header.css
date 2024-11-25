@@ -1,0 +1,353 @@
+:root {
+    --background-color-light: #ffffff;
+    --background-color-dark: #1a1a1a;
+    --text-color-light: #333333;
+    --text-color-dark: #ffffff;
+    --heading-color: var(--text-color-light);
+}
+
+body.light-theme {
+    background-color: var(--background-color-light);
+    color: var(--text-color-light);
+}
+
+body.dark-theme {
+    background-color: var(--background-color-dark);
+    color: var(--text-color-dark);
+}
+
+.header {
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    padding: 0 10px;
+}
+
+.logo img {
+    width: 25%;
+}
+
+.nation__dropdown {
+    font-weight: 600;
+    position: relative;
+}
+
+.dropdown__toggle {
+    font-size: 1rem !important;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    color: var(--heading-color);
+    cursor: pointer;
+    transition: color 0.3s ease;
+    padding: 8px 15px;
+    border-radius: 3px;
+    box-sizing: border-box;
+    min-width: 120px;
+    justify-content: center;
+}
+
+.nav__item {
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+.dropdown__menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: var(--background-color-light);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    list-style: none;
+    padding: 10px 0;
+    margin: 0;
+    width: 220px;
+    max-height: 300px;
+    overflow-y: auto;
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.nation__dropdown:hover .dropdown__menu {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.dropdown__item {
+    padding: 8px 15px 10px 20px;
+    font-size: 14px;
+    color: var(--heading-color);
+    background: transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin: 0;
+}
+
+.dropdown__item:hover {
+    background-color: #faa935;
+    color: var(--text-color-dark);
+}
+
+body.dark-theme .dropdown__menu {
+    background-color: var(--background-color-dark);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-theme .dropdown__item {
+    color: var(--text-color-dark);
+}
+
+body.dark-theme .dropdown__item:hover {
+    background-color: #faa935;
+}
+
+.menu {
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 20px;
+}
+
+.nav__item a {
+    text-decoration: none;
+    color: var(--heading-color);
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.earth__icon {
+    color: #4CAF50; /* Change this to your desired color */
+    cursor: pointer; /* Change cursor to pointer to indicate it's clickable */
+    font-size: 24px; /* Adjust size as needed */
+    transition: color 0.3s; /* Smooth transition for hover effect */
+  }
+  
+  .earth__icon:hover {
+    color: #388E3C; /* Darker shade on hover */
+  }
+
+.popup__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+body.dark-theme .popup__overlay {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+.popup__content {
+    background: var(--background-color-light);
+    border-radius: 8px;
+    max-width: 600px;
+    width: 90%;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-theme .popup__content {
+    background: var(--background-color-dark);
+    color: var(--text-color-dark);
+}
+
+.popup__image {
+    perspective: 1500px; /* Perspective for 3D effect */
+    text-align: center;
+    overflow: hidden; /* Ensure the image doesn't overflow the container */
+  }
+  
+  .popup__travel-img {
+    width: 100%; /* Ensure it takes full width of the popup */
+    border-radius: 8px; /* Optional: for rounded corners */
+    transition: transform 0.8s ease, box-shadow 0.8s ease; /* Increased duration for smoother transition */
+    will-change: transform, box-shadow; /* Hint to the browser for optimization */
+  }
+  
+  .popup__travel-img:hover {
+    transform: scale(1.2); /* Zoom in effect */
+    /*transform: translateX(200px);*/
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6); /* Stronger shadow for depth */
+  }
+  
+  /* Adding a "box opening" effect */
+  .popup__travel-img::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8); /* Light overlay */
+    transform: translateZ(-10px) rotateY(0deg); /* Initial state */
+    transition: transform 0.8s ease; /* Increased duration for smoother transition */
+    z-index: -1; /* Behind the image */
+  }
+  
+  .popup__travel-img:hover::before {
+    transform: translateZ(0) rotateY(180deg); /* Open effect */
+  }
+  
+  /* Optional: Add a subtle animation for when the popup opens */
+  .popup__travel-img {
+    animation: fadeIn 0.9s ease forwards; /* Increased duration for fade-in effect */
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0; /* Start transparent */
+      transform: translateY(20px); /* Start slightly lower */
+    }
+    to {
+      opacity: 1; /* Fully visible */
+      transform: translateY(0); /* Original position */
+    }
+  }
+.features div {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 20px; /* Adjust size as needed */
+  }
+  
+  .features .flight-icon {
+    color: #FF5722; /* Orange for flights */
+  }
+  
+  .features .hotel-icon {
+    color: #3F51B5; /* Indigo for hotels */
+  }
+  
+  .features .wifi-icon {
+    color: #4CAF50; /* Green for wifi */
+  }
+  
+  .features .food-icon {
+    color: #FF9800; /* Orange for food */
+  }
+
+.popup__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0; /* Start with hidden */
+    visibility: hidden; /* Ensure it's not clickable */
+    transition: opacity 0.3s ease, visibility 0.3s ease; /* Transition for smooth appearance */
+  }
+  
+  .popup__overlay.show {
+    opacity: 1; /* Fully visible */
+    visibility: visible; /* Make it clickable */
+  }
+  
+  .popup__content {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    max-width: 500px;
+    width: 90%; /* Responsive width */
+    transform: scale(0); /* Start scaled down */
+    opacity: 0; /* Start with transparent */
+    transition: transform 0.3s ease, opacity 0.3s ease; /* Transition for the popup content */
+  }
+  
+  .popup__content.show {
+    transform: scale(1); /* Scale to original size */
+    opacity: 1; /* Fully visible */
+  }
+  
+  .popup__image {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  
+  
+  .popup__text {
+    text-align: center;
+  }
+  
+  .features {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+  }
+  
+  .features div {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+@media only screen and (max-width: 992px) {
+    .logo img {
+        width: 18%;
+    }
+
+    .navigation {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.411);
+        z-index: 999;
+        display: none;
+    }
+
+    .menu {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: calc(100% - 75%);
+        height: 100%;
+        background-color: var(--background-color-light);
+        flex-direction: column;
+        justify-content: center;
+        z-index: 9999;
+    }
+
+    body.dark-theme .menu {
+        background-color: var(--background-color-dark);
+    }
+
+    .show__menu {
+        display: block;
+    }
+
+    .mobile__menu {
+        display: block;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .logo img {
+        width: 40%;
+    }
+
+    .menu {
+        width: calc(100% - 50%);
+    }
+}
