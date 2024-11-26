@@ -52,8 +52,6 @@ const Booking = ({ tour, avgRating }) => {
                 </FormGroup>
             </Form>
         </div>
-        {/* booking end */}
-        {/*  booking bottom*/}
         <div className="booking__bottom">
             <ListGroup>
                 <ListGroupItem className="border-0 px-0">
