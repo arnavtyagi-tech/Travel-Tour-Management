@@ -37,10 +37,3 @@ export const verifyAdmin = (req, res, next) => {
         }
     });
 };
-
-// suhana
-// accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZDRlMDFlNzc2NTg2MzY5MjlmN2M3MCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzI1MjI3NjQwLCJleHAiOjE3MjY1MjM2NDB9.2Dw7qxRwDPgJpRtwGTLOYPOxbJDe70uxOTMYChKEgoI; Path =/; HttpOnly;
-
-
-// user
-// accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZDRlMDFlNzc2NTg2MzY5MjlmN2M3MCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzI1MjI3NjQwLCJleHAiOjE3MjY1MjM2NDB9.2Dw7qxRwDPgJpRtwGTLOYPOxbJDe70uxOTMYChKEgoI; Path=/; HttpOnly;
