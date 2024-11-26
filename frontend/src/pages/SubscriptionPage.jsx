@@ -1,22 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Button } from 'react-bootstrap'; // Import Modal and Button
-import '../styles/SubscriptionPage.css'; // Custom styles
-import logos from '../assets/images/logo.png'; // Path to your logo image
+import React, { useState, useEffect, useContext } from 'react';
+import { Container, Row, Col, Button } from 'react-bootstrap'; 
+import { Link, useNavigate } from 'react-router-dom';
+import '../styles/SubscriptionPage.css'; 
+import logos from '../assets/images/logo.png'; 
+import { AuthContext } from './../context/AuthContext'; 
 
 const SubscriptionPage = () => {
   const [email, setEmail] = useState('');
   const [isSubscribed, setIsSubscribed] = useState(false);
-  const [membershipType, setMembershipType] = useState('regular'); // Default membership type
+  const [membershipType, setMembershipType] = useState('regular'); 
   const [discount, setDiscount] = useState(0);
-  const [showModal, setShowModal] = useState(false); // State for modal visibility
-  const [amount, setAmount] = useState(0); // Amount to be paid after discount
-  const [showGratitude, setShowGratitude] = useState(false); // For showing gratitude popup
+  const [showModal, setShowModal] = useState(false); 
+  const [amount, setAmount] = useState(0); 
+  const [showGratitude, setShowGratitude] = useState(false); 
 
-  // Define membership amounts
   const membershipAmounts = {
-    regular: 1000, // Regular membership amount
-    premium: 2000   // Premium membership amount
+    regular: 1000, 
+    premium: 2000   
   };
+
+  const { user } = useContext(AuthContext); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!window.Razorpay) {
@@ -31,34 +35,36 @@ const SubscriptionPage = () => {
   }, []);
 
   const handleSubscribe = (event) => {
-    event.preventDefault(); // Prevent default form submission
+    event.preventDefault(); 
 
-    // Calculate discount based on the day of the week and membership type
+    if (email !== user?.email) {
+      alert('The email entered does not match your login email. Please log in first.');
+      navigate('/login'); 
+      return;
+    }
+
     calculateDiscount();
 
     console.log(`Subscribing email: ${email}`);
     
-    // Assuming subscription is successful:
-    setIsSubscribed(true); // Update state to reflect subscription status
-    setShowModal(true); // Show modal on successful subscription
+    setIsSubscribed(true); 
+    setShowModal(true); 
   };
 
   const calculateDiscount = () => {
     const today = new Date();
-    const dayOfWeek = today.getDay(); // 0 - Sunday, 6 - Saturday
+    const dayOfWeek = today.getDay(); 
 
     let weekendDiscount = 0;
-    if (dayOfWeek === 0 || dayOfWeek === 6) { // Sunday or Saturday
-      weekendDiscount = 10; // Example discount of 10%
+    if (dayOfWeek === 0 || dayOfWeek === 6) { 
+      weekendDiscount = 10; 
     }
 
-    let membershipDiscount = membershipType === 'premium' ? 10 : 0; // Premium members get an additional 10% discount
+    let membershipDiscount = membershipType === 'premium' ? 10 : 0; 
 
-    // Total discount calculation
     setDiscount(weekendDiscount + membershipDiscount);
   };
 
-  // Calculate total amount after discount
   const calculateTotalAmount = () => {
     const baseAmount = membershipAmounts[membershipType];
     const totalDiscount = discount;
@@ -71,21 +77,20 @@ const SubscriptionPage = () => {
 
     if (window.Razorpay) {
       const options = {
-        key: 'rzp_test_GFDuCQAYS65RbS', // Replace with your Razorpay key
-        amount: totalAmount * 100, // Amount in smallest currency unit (paise)
+        key: 'rzp_test_GFDuCQAYS65RbS', 
+        amount: totalAmount * 100, 
         currency: 'INR',
         name: 'TravelEase',
         description: 'Tour Booking Payment',
-        image: 'https://example.com/logo.png', // Replace with your logo URL
+        image: 'https://example.com/logo.png', 
         handler: function (response) {
-          // Trigger the falling stars effect when payment is successful
-          setShowGratitude(true); // Show gratitude popup after successful payment
-          createFallingStars(); // Trigger the falling stars animation
+          setShowGratitude(true); 
+          createFallingStars(); 
         },
         prefill: {
-          name: 'Customer Name', // Replace with customer's name
-          email: email, // Prefill with customer's email
-          contact: '1234567890', // Replace with customer's contact number
+          name: 'Customer Name', 
+          email: email, 
+          contact: '1234567890', 
         },
         notes: {
           address: 'Customer Address',
@@ -102,32 +107,28 @@ const SubscriptionPage = () => {
     }
   };
 
-  // Create falling stars effect
   const createFallingStars = () => {
     const container = document.createElement('div');
     container.className = 'falling-stars-container';
 
-    // Generate 20 stars
     for (let i = 0; i < 200; i++) {
       const star = document.createElement('div');
       star.className = 'falling-star';
-      star.style.left = `${Math.random() * 100}vw`; // Random horizontal position
-      star.style.animationDuration = `${Math.random() * 3 + 2}s`; // Random fall speed
+      star.style.left = `${Math.random() * 100}vw`;
+      star.style.animationDuration = `${Math.random() * 3 + 2}s`; 
       container.appendChild(star);
     }
 
-    // Append to body
     document.body.appendChild(container);
 
-    // Remove stars after animation duration
     setTimeout(() => {
       document.body.removeChild(container);
-    }, 5000); // Adjust the duration of the falling stars
+    }, 5000);
   };
 
   const handleCloseGratitudePopup = () => {
-    setShowGratitude(false); // Close gratitude popup
-    window.location.reload(); // Reload the page to reset subscription process
+    setShowGratitude(false); 
+    window.location.reload();
   };
 
   return (
@@ -184,7 +185,6 @@ const SubscriptionPage = () => {
         </Row>
       </Container>
 
-      {/* Gratitude Full Screen Popup */}
       {showGratitude && (
         <div className="gratitude-popup">
           <div className="gratitude-content">
@@ -206,4 +206,3 @@ const SubscriptionPage = () => {
 };
 
 export default SubscriptionPage;
-
