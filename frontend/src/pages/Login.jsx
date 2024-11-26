@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext } from 'react';
 import { Container, Row, Col, Form, FormGroup, Button } from 'reactstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/login.css';
@@ -9,50 +9,45 @@ import userIcon from '../assets/images/user.png';
 import { AuthContext } from './../context/AuthContext';
 import { BASE_URL } from './../utils/config';
 
-
 const Login = () => {
   const [credentials, setCredentials] = useState({
     email: undefined,
     password: undefined
   });
 
-  const { dispatch } = useContext(AuthContext)
-  const navigate = useNavigate()
+  const { dispatch } = useContext(AuthContext);
+  const navigate = useNavigate();  
 
   const handleChange = e => {
-    setCredentials(prev => ({ ...prev, [e.target.id]: e.target.value }))
+    setCredentials(prev => ({ ...prev, [e.target.id]: e.target.value }));
   };
-  const handleClick = async e => {
-    e.preventDefault()
-    // will call our API to validate the credentials and then navigate to home page
 
-    dispatch({ type: 'LOGIN_START' })
+  const handleClick = async e => {
+    e.preventDefault();
+    dispatch({ type: 'LOGIN_START' });
 
     try {
-
       const res = await fetch(`${BASE_URL}/auth/login`, {
-        method: 'post',
+        method: 'POST',
         headers: {
-          'content-type': 'application/json'
+          'Content-Type': 'application/json'
         },
         credentials: 'include',
         body: JSON.stringify(credentials),
-      })
+      });
 
-      const result = await res.json()
-      if (!res.ok) alert(result.message)
+      const result = await res.json();
 
-      console.log(result.data);
-
-      dispatch({ type: 'LOGIN_SUCCESS', payload: result.data })
-      navigate('/')
+      if (!res.ok) {
+        alert(result.message);
+        return;
+      }
+      dispatch({ type: 'LOGIN_SUCCESS', payload: result.data });
+      navigate('/home');  
     } catch (err) {
-      dispatch({ type: 'LOGIN_FAILURE', payload: err.message })
+      dispatch({ type: 'LOGIN_FAILURE', payload: err.message });
     }
   };
-
-
-
 
   return (
     <section>
@@ -70,20 +65,37 @@ const Login = () => {
                 <h2>Login</h2>
                 <Form onSubmit={handleClick}>
                   <FormGroup>
-                    <input type="email" placeholder='Email' required id="email" onChange={handleChange}></input>
+                    <input
+                      type="email"
+                      placeholder="Email"
+                      required
+                      id="email"
+                      onChange={handleChange}
+                    />
                   </FormGroup>
                   <FormGroup>
-                    <input type="password" placeholder='Password' required id="password" onChange={handleChange}></input>
+                    <input
+                      type="password"
+                      placeholder="Password"
+                      required
+                      id="password"
+                      onChange={handleChange}
+                    />
                   </FormGroup>
-                  <Button className="btn secondary__btn auth_btn" type="submit">Login</Button>
+                  <Button className="btn secondary__btn auth_btn" type="submit">
+                    Login
+                  </Button>
                 </Form>
-                <p>Don't have an account?<Link to='/register'>Create</Link></p>
+                <p>
+                  Don't have an account?<Link to="/register">Create</Link>
+                </p>
               </div>
             </div>
           </Col>
         </Row>
       </Container>
     </section>
-  )
+  );
 };
+
 export default Login;
