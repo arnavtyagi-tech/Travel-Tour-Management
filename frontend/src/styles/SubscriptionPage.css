@@ -1,43 +1,20 @@
-/* Define CSS Variables for Light and Dark Mode */
 :root {
-    /* --bg-color: #f8f9fa; */
-    /* Light background */
     --text-color: #000;
-    /* Dark text */
-    /* --primary-color: #007bff; */
-    /* Primary color for buttons */
-    /* --secondary-color: #6c757d; */
-    /* Secondary color for buttons */
-    /* --hover-color: #0056b3; */
-    /* Button hover color */
     --modal-bg-color: #967676;
-    /* Modal background color */
     --gratitude-overlay: rgba(0, 0, 0, 0.7);
-    /* Popup overlay color */
     --star-color: #ffd700;
-    /* Star color */
 }
 
 [data-theme="dark"] {
     --bg-color: #121212;
-    /* Dark background */
     --text-color: #fff;
-    /* Light text */
     --primary-color: #0d6efd;
-    /* Adjusted primary color for dark mode */
     --secondary-color: #adb5bd;
-    /* Adjusted secondary color */
-    /* --hover-color: #0a58ca; */
-    /* Adjusted hover color */
     --modal-bg-color: #1c1c1c;
-    /* Modal background color for dark mode */
     --gratitude-overlay: rgba(255, 255, 255, 0.7);
-    /* Light overlay in dark mode */
     --star-color: #ffdf00;
-    /* Bright yellow stars */
 }
 
-/* General Page Styles */
 .subscription-page {
     background-color: var(--bg-color);
     color: var(--text-color);
@@ -170,7 +147,6 @@
     background-color: var(--hover-color);
 }
 
-/* Animations */
 @keyframes fadeIn {
     from {
         opacity: 0;

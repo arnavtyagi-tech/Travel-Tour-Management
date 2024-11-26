@@ -120,6 +120,10 @@ body.dark-theme .dropdown__menu {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
+body.dark-theme .nav__item a:hover {
+  color: #ffffff;
+}
+
 body.dark-theme .dropdown__item {
   color: var(--text-color-dark);
 }
