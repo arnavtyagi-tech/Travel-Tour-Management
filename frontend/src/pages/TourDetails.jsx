@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState,useContext } from 'react';
+import React, { useEffect, useRef, useState, useContext } from 'react';
 import '../styles/tour-details.css';
-import { Container, Row, Col, Form, ListGroup } from 'reactstrap';
+import { Container, Row, Col, Form, ListGroup, Input, Button } from 'reactstrap';
 import { useParams } from 'react-router-dom';
 import calculateAvgRating from '../utils/avgRating';
 import avatar from '../assets/images/avatar.jpg';
@@ -8,66 +8,92 @@ import Booking from '../components/Booking/Booking';
 import NewsLetter from './../shared/Newsletter';
 import useFetch from './../hooks/useFetch'; 
 import { BASE_URL } from '../utils/config'; 
-import {AuthContext} from './../context/AuthContext';
-
-
+import { AuthContext } from './../context/AuthContext';
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
 const TourDetails = () => {
   const { id } = useParams();
   const reviewMsgRef = useRef('');
   const [tourRating, setTourRating] = useState(null);
-  const {user}=useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+  
+  // For Address input and geocoding result
+  const [addressInput, setAddressInput] = useState("");
+  const [mapCenter, setMapCenter] = useState({ lat: 28.6139, lng: 77.2090 }); // Default to New Delhi
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
 
   // Fetch data from database
   const { data: tour, loading, error } = useFetch(`${BASE_URL}/tours/${id}`);
 
-  // Destructure properties only if tour is defined
   const { photo, title, desc, price, address, reviews = [], city, distance, maxGroupSize } = tour || {};
-
   const { totalRating, avgRating } = calculateAvgRating(reviews);
 
   // Format date
   const options = { day: 'numeric', month: 'long', year: 'numeric' };
 
-  // Submit request to the server
-  const submitHandler = async e => {
+  // Geocoding function to convert address to lat/lng
+  const geocodeAddress = async (address) => {
+    try {
+      const geocoder = new window.google.maps.Geocoder();
+      geocoder.geocode({ address: address }, (results, status) => {
+        if (status === "OK") {
+          const { lat, lng } = results[0].geometry.location;
+          setLatitude(lat());
+          setLongitude(lng());
+          setMapCenter({ lat: lat(), lng: lng() });
+        } else {
+          alert("Geocode was not successful for the following reason: " + status);
+        }
+      });
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+  const submitHandler = async (e) => {
     e.preventDefault();
     const reviewText = reviewMsgRef.current.value;
-   
-    try{
-      if(!user || user===undefined ||user===null){
+
+    try {
+      if (!user || user === undefined || user === null) {
         alert("Please sign in");
       }
 
-      const reviewObj={
-        username:user?.username,
+      const reviewObj = {
+        username: user?.username,
         reviewText,
-        rating:tourRating
-      }
-      
-      const res= await fetch(`${BASE_URL}/review/${id}`,{
-        method:'post',
+        rating: tourRating
+      };
+
+      const res = await fetch(`${BASE_URL}/review/${id}`, {
+        method: 'post',
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials:'include',
-        body:JSON.stringify(reviewObj)
-      })
+        credentials: 'include',
+        body: JSON.stringify(reviewObj)
+      });
 
-      const result= await res.json()
-      if(!res.ok){
-        return alert(result.message)
+      const result = await res.json();
+      if (!res.ok) {
+        return alert(result.message);
       }
-       alert(result.message);
-    }catch(err){
+      alert(result.message);
+    } catch (err) {
       alert(err.message);
     }
-    // later will call our api
   };
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [tour]);
+
+  // Map container style
+  const mapContainerStyle = {
+    width: '100%',
+    height: '400px',  // Ensure height is defined
+  };
 
   return (
     <>
@@ -162,6 +188,43 @@ const TourDetails = () => {
           )}
         </Container>
       </section>
+
+      {/* Google Map Section */}
+      <section>
+        <Container>
+          <div className="search-location-container">
+            <h4>Enter Location Address</h4>
+            <Form onSubmit={(e) => { e.preventDefault(); geocodeAddress(addressInput); }}>
+              <Input
+                type="text"
+                value={addressInput}
+                onChange={(e) => setAddressInput(e.target.value)}
+                placeholder="Enter an address"
+                required
+              />
+              <Button color="primary" type="submit">Search Location</Button>
+            </Form>
+          </div>
+      
+          <div className="loc">
+            <h4>Location on Map</h4>
+          </div>
+
+          <div className="google-map-container">
+            <LoadScript googleMapsApiKey="AIzaSyAKckLtzkW_InJ7MZq7q0YhCHvXrb_qA0o">
+              <GoogleMap
+                mapContainerStyle={mapContainerStyle}
+                center={mapCenter}  
+                zoom={12}
+              >
+                {latitude && longitude && <Marker position={mapCenter} />}
+              </GoogleMap>
+            </LoadScript>
+          </div>
+        </Container>
+      </section>
+
+
       <NewsLetter />
     </>
   );
