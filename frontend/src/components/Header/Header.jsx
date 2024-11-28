@@ -18,7 +18,7 @@ const navLinks = [
 ];
 
 const countries = [
-  "United States",
+  "US",
   "India",
   "Canada",
   "Australia",
