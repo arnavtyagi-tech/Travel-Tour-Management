@@ -5,13 +5,11 @@ const Contact = () => {
     const [showChatbot, setShowChatbot] = useState(false);
 
     useEffect(() => {
-        // Dynamically create and append the script tag to the document body
         const script = document.createElement('script');
         script.src = 'https://static-bundles.visme.co/forms/vismeforms-embed.js';
         script.async = true;
         document.body.appendChild(script);
 
-        // Cleanup script tag on component unmount
         return () => {
             document.body.removeChild(script);
         };

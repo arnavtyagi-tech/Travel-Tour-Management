@@ -46,7 +46,7 @@ const Footer = () => {
           <div className="logo">
             <img src={logo} alt="" />
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Embark on Unforgettable Adventures with Expert Planning and Seamless Travel.
             </p>
             <div className="social__links d-flex align-items-center gap-4">
               <span>
