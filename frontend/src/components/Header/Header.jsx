@@ -9,7 +9,6 @@ import { MdFlight, MdOutlineLocalHotel } from "react-icons/md";
 import { IoIosWifi } from "react-icons/io";
 import { IoFastFoodSharp } from "react-icons/io5";
 
-
 const navLinks = [
   { path: "/home", display: "Home" },
   { path: "/about", display: "About" },
@@ -18,7 +17,7 @@ const navLinks = [
 ];
 
 const countries = [
-  "US",
+  "United States",
   "India",
   "Canada",
   "Australia",
@@ -33,7 +32,6 @@ const countries = [
 const Header = () => {
   const headerRef = useRef(null);
   const menuRef = useRef(null);
-
   const navigate = useNavigate();
   const { user, dispatch } = useContext(AuthContext);
 
@@ -74,13 +72,18 @@ const Header = () => {
     setIsPopupOpen(!isPopupOpen);
   };
 
+  // Handle logo click to navigate to Admin page
+  const handleLogoClick = () => {
+    navigate("/admin"); // Navigate to the Admin page
+  };
+
   return (
     <header className="header" ref={headerRef}>
       <Container>
         <Row>
           <div className="nav__wrapper d-flex align-items-center justify-content-between">
-            {/* Logo */}
-            <div className="logo">
+            {/* Logo - clickable to navigate to Admin page */}
+            <div className="logo" onClick={handleLogoClick}>
               <img src={logo} alt="Logo" />
             </div>
 
@@ -161,50 +164,33 @@ const Header = () => {
         </Row>
       </Container>
 
-     {/* Popup */}
-{/* Popup */}
-{isPopupOpen && (
-  <div className={`popup__overlay ${isPopupOpen ? 'show' : ''}`} onClick={togglePopup}>
-    <div className={`popup__content ${isPopupOpen ? 'show' : ''}`} onClick={(e) => e.stopPropagation()}>
-      <h2>Explore the World</h2>
-      <div className="popup__body">
-        <div className="popup__image">
-          <img
-            src={TravelImg}
-            alt="Travel"
-            className="popup__travel-img"
-          />
-        </div>
-        <div className="popup__text">
-          <p>
-            Explore amazing destinations with flights, hotels, food, and
-            wifi!
-          </p>
-          <div className="features">
-            <div>
-              <MdFlight /> Flights
+      {/* Popup */}
+      {isPopupOpen && (
+        <div className={`popup__overlay ${isPopupOpen ? 'show' : ''}`} onClick={togglePopup}>
+          <div className={`popup__content ${isPopupOpen ? 'show' : ''}`} onClick={(e) => e.stopPropagation()}>
+            <h2>Explore the World</h2>
+            <div className="popup__body">
+              <div className="popup__image">
+                <img src={TravelImg} alt="Travel" className="popup__travel-img" />
+              </div>
+              <div className="popup__text">
+                <p>
+                  Explore amazing destinations with flights, hotels, food, and wifi!
+                </p>
+                <div className="features">
+                  <div><MdFlight /> Flights</div>
+                  <div><MdOutlineLocalHotel /> Hotels</div>
+                  <div><IoIosWifi /> Wifi</div>
+                  <div><IoFastFoodSharp /> Food</div>
+                </div>
+              </div>
             </div>
-            <div>
-              <MdOutlineLocalHotel /> Hotels
-            </div>
-            <div>
-              <IoIosWifi /> Wifi
-            </div>
-            <div>
-              <IoFastFoodSharp /> Food
-            </div>
+            <Button className="btn btn-dark" onClick={togglePopup}>Close</Button>
           </div>
         </div>
-      </div>
-      <Button className="btn btn-dark" onClick={togglePopup}>
-        Close
-      </Button>
-    </div>
-  </div>
-)}
+      )}
     </header>
   );
 };
 
 export default Header;
-

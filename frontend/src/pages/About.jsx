@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from "react";
 import Slider from "react-slick";
 import "./../styles/about.css";
 import image1 from "../assets/images/gallery-01.jpg";
@@ -47,42 +47,8 @@ const AboutTravelWorld = () => {
     customPaging: (i) => <div className="custom-dot"></div>, 
   };
 
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      setIsDarkMode(savedTheme === 'dark');
-      document.body.classList.toggle('dark-theme', savedTheme === 'dark');
-    }
-  }, []);
-
-  // Toggle theme (light/dark)
-  const toggleTheme = () => {
-    const newTheme = !isDarkMode ? 'dark' : 'light';
-    setIsDarkMode(!isDarkMode);
-    localStorage.setItem('theme', newTheme); // Save theme to localStorage
-    document.body.classList.toggle('dark-theme', !isDarkMode); // Apply dark-theme class
-  };
-
-
   return (
-    
     <div className="aboutus-page">
-            <button
-        onClick={toggleTheme}
-        style={{
-          position: 'fixed',
-          top: '20px',
-          right: '30px',
-          backgroundColor: 'transparent',
-          border: 'none',
-          cursor: 'pointer',
-          zIndex: '1000',
-          fontSize: '24px',
-        }}
-      >
-        {isDarkMode ? '🌞' : '🌙'}
-      </button>
       {/* Header Section */}
       <div className="aboutus-container">
         <div className="text-container">

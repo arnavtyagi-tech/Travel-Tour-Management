@@ -7,7 +7,7 @@ body {
 
 .aboutus-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; 
   align-items: center;
   min-height: calc(100vh - 60px);
   padding: 0 100px;
