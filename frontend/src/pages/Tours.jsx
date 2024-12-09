@@ -12,6 +12,7 @@ import { BASE_URL } from '../utils/config';
 import chatbotIcon from '../assets/images/imageLogo.png'; // Path to your chatbot icon
 
 const Tours = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const [pageCount, setPageCount] = useState(0);
   const [page, setPage] = useState(0);
   const [showChatbot, setShowChatbot] = useState(false);
@@ -30,8 +31,40 @@ const Tours = () => {
     setShowChatbot(!showChatbot);
   };
 
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      setIsDarkMode(savedTheme === 'dark');
+      document.body.classList.toggle('dark-theme', savedTheme === 'dark');
+    }
+  }, []);
+
+
+   // Toggle theme (light/dark)
+   const toggleTheme = () => {
+    const newTheme = !isDarkMode ? 'dark' : 'light';
+    setIsDarkMode(!isDarkMode);
+    localStorage.setItem('theme', newTheme); // Save theme to localStorage
+    document.body.classList.toggle('dark-theme', !isDarkMode); // Apply dark-theme class
+  };
+
   return (
     <>
+      <button
+        onClick={toggleTheme}
+        style={{
+          position: 'fixed',
+          top: '20px',
+          right: '30px',
+          backgroundColor: 'transparent',
+          border: 'none',
+          cursor: 'pointer',
+          zIndex: '1000',
+          fontSize: '24px',
+        }}
+      >
+        {isDarkMode ? '🌞' : '🌙'}
+      </button>
       <CommonSection title={"All Tours"} />
       <section>
         <Container>
@@ -104,18 +137,18 @@ const Tours = () => {
             height: '500px',
             border: 'none',
             zIndex: '1000',
-            borderRadius: '15px', /* Rounded corners */
-            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)', /* Soft shadow for depth */
-            transition: 'transform 0.3s ease, box-shadow 0.3s ease', /* Smooth transition effects */
+            borderRadius: '15px', 
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)', 
+            transition: 'transform 0.3s ease, box-shadow 0.3s ease', 
           }}
           title="Chatbot"
           onMouseEnter={(e) => {
-            e.target.style.transform = 'scale(1.05)'; /* Slight zoom effect */
-            e.target.style.boxShadow = '0 6px 18px rgba(0, 0, 0, 0.3)'; /* Enhanced shadow on hover */
+            e.target.style.transform = 'scale(1.05)';
+            e.target.style.boxShadow = '0 6px 18px rgba(0, 0, 0, 0.3)'; 
           }}
           onMouseLeave={(e) => {
-            e.target.style.transform = 'scale(1)'; /* Reset zoom */
-            e.target.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.2)'; /* Reset shadow */
+            e.target.style.transform = 'scale(1)'; 
+            e.target.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.2)'; 
           }}
         ></iframe>
       )}

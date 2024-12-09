@@ -8,7 +8,6 @@ body {
 
 .support-page {
     padding: 20px;
-    background: linear-gradient(135deg, #f7f7f7, #e3e3e3);
     color: #333;
     display: flex;
     flex-wrap: wrap;
@@ -49,7 +48,7 @@ body {
 }
 
 .faq-item:hover {
-    background-color: rgb(243, 160, 15);
+    background-color: rgb(234, 163, 38);
     transform: translateY(-5px);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
@@ -113,12 +112,10 @@ body {
 }
 
 
-
-
 /* Contact Section */
 .contact-section {
     text-align: center;
-    background: #f8f9fa;
+    /* background: #f8f9fa; */
     padding: 20px;
     margin: 20px 0;
     border-radius: 8px;
@@ -127,7 +124,6 @@ body {
 
 .contact-section p {
     margin: 5px 0;
-    color: #333;
     font-size: 16px;
 }
 
